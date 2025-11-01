@@ -1,0 +1,98 @@
+/* Hover Effect for Cards */
+.hover-effect {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-effect:hover {
+  transform: translateY(-10px);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Rounded Carousel Images */
+.carousel-inner img {
+  border-radius: 12px;
+}
+/* 🌊 Hero Gradient */
+.hero-section {
+  background: linear-gradient(135deg, #e0f7fa, #ffffff);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 🎨 Decorative Wave */
+.custom-shape-divider-bottom-hero {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+/* 💫 Hover Card Animation */
+.hover-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* 🖋️ Text Enhancements */
+h1, h2 {
+  font-family: "Poppins", sans-serif;
+}
+
+.btn {
+  border-radius: 30px;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+
+/* 🔄 Smooth marquee-like scrolling for Student Feedback */
+.scroll-wrapper {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.scroll-content {
+  display: flex;
+  gap: 20px;
+  animation: scroll-left 20s linear infinite;
+}
+
+.scroll-wrapper:hover .scroll-content {
+  animation-play-state: paused; /* ⏸ Pause on hover */
+}
+
+@keyframes scroll-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+
+body {
+  background-color: #f8f9fa;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  transition: 0.3s;
+}
+
+.btn {
+  transition: 0.3s;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}

@@ -1,0 +1,3 @@
+This platform is an online learning and teaching marketplace that allows educators to share their knowledge with the world. It offers a wide range of courses across various subjects.
+
+Learners can enroll in both free and paid courses, making education accessible to everyone regardless of their budget. The platform’s mission is to educate and empower people by providing quality learning opportunities and practical skills that can help them grow personally and professionally.
