@@ -235,14 +235,78 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { TiStar } from "react-icons/ti";
-import { LogOut as LogOutIcon } from "lucide-react";
+import { LogOut as LogOutIcon ,UserCircle as UserCircleIcon } from "lucide-react";
+import { useSelector, useDispatch } from "react-redux";
+
+import { logout } from "../slices/authSlice.jsx";
+
+
+
+
+import { authenticateWithGoogle } from "../services/authService.jsx";
+
+import { setSignupData, setToken } from "../slices/authSlice.jsx";
+
+
+import { GoogleLogin } from "@react-oauth/google";
+import {useNavigate} from 'react-router-dom'
+
 
 export default function Navbar() {
-  const [signupData, setSignupData] = useState({
-    name: "John Doe",
-    picture: "https://i.pravatar.cc/150?img=3",
-    isSubscribed: false,
-  });
+
+  const googleButtonRef = useRef(null);
+
+   const dispatch = useDispatch();
+    const { signupData } = useSelector((state) => state.auth);
+    const navigate = useNavigate()
+
+
+
+   const triggerGoogleLogin = () => {
+    const googleBtn = googleButtonRef.current?.querySelector('div[role="button"]');
+    if (googleBtn) googleBtn.click();
+
+    console.log("triggered")
+  };
+
+
+   const handleLoginSuccess = async (response) => {
+    const token = response.credential;
+
+    try {
+      const res = await authenticateWithGoogle(token);
+      localStorage.setItem("token", JSON.stringify(res.data.token));
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      dispatch(setToken(res.data.token));
+      dispatch(setSignupData(res.data.user));
+
+      setSignupDropDownVisible(false)
+
+      console.log("res : ",res)
+
+      navigate("/");
+    } catch (error) {
+      console.error("Login error:", error);
+    }
+
+    console.log("you r trying to login");
+
+  };
+
+
+  const handleLogout = () => {
+    dispatch(logout());
+    setSignupDropDownVisible(false)
+    navigate("/");
+  };
+
+
+
+  // const [signupData, setSignupData] = useState({
+  //   name: "John Doe",
+  //   picture: "JohnDoe.jpg",
+  //   isSubscribed: false,
+  // });
 
   const [signupDropDownVisible, setSignupDropDownVisible] = useState(false);
   const dropdownRef = useRef(null);
@@ -370,20 +434,28 @@ export default function Navbar() {
               className="position-relative bg-transparent border-0 p-0"
               onClick={() => setSignupDropDownVisible(!signupDropDownVisible)}
             >
-              <img
-                src={signupData.picture}
-                alt={signupData.name || "User profile"}
-                className="rounded-circle border-2 object-fit-cover"
-                style={userImageStyle}
-              />
+             
+              {signupData ? (
+                <img
+                   src={signupData.picture  }
+                    alt={signupData.name || "User profile"}
+                    className="rounded-circle border-2 object-fit-cover"
+                    style={userImageStyle}
+                />
+
+              ) : (
+                <UserCircleIcon size={30} className="text-purple-700 hover:text-purple-900" />
+              )}
+
+
             </button>
 
             {signupDropDownVisible && (
               <div style={dropdownMenuStyle}>
-                {false ? (
+                {signupData ? (
                   <>
                     {signupData.isSubscribed ? (
-                      <div style={premiumBox}>
+                      <div style={premiumBox} >
                         <TiStar size={20} />
                         <span style={{ fontSize: "0.875rem", fontWeight: 600 }}>
                           Premium User
@@ -391,7 +463,7 @@ export default function Navbar() {
                       </div>
                     ) : (
                       <button
-                        onClick={() => setSignupDropDownVisible(false)}
+                        onClick={() => {setSignupDropDownVisible(false); console.log("clicked on premimum option")}}
                         style={upgradeBtn}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.backgroundColor = "#faf5ff";
@@ -408,7 +480,7 @@ export default function Navbar() {
                     )}
 
                     <button
-                      onClick={() => console.log("handle logout")}
+                      onClick={() => handleLogout()}
                       style={logoutBtn}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.backgroundColor = "#fef2f2";
@@ -424,24 +496,35 @@ export default function Navbar() {
                     </button>
                   </>
                 ) : (
-                  <div
-                    style={googleBtn}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.boxShadow = "0 2px 4px rgba(0,0,0,0.2)";
-                      e.currentTarget.style.backgroundColor = "#f8f9fa";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.boxShadow = "0 1px 2px rgba(0,0,0,0.1)";
-                      e.currentTarget.style.backgroundColor = "#fff";
-                    }}
-                  >
-                    <img
-                      src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-                      alt="Google logo"
-                      style={{ width: "18px", height: "18px" }}
-                    />
-                    <span>Continue with Google</span>
-                  </div>
+
+                  <>
+                    <div
+                      style={googleBtn}
+                      onClick={triggerGoogleLogin}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.boxShadow = "0 2px 4px rgba(0,0,0,0.2)";
+                        e.currentTarget.style.backgroundColor = "#f8f9fa";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.boxShadow = "0 1px 2px rgba(0,0,0,0.1)";
+                        e.currentTarget.style.backgroundColor = "#fff";
+                      }}
+                    >
+                      <img
+                        src="google.svg"
+                        alt="Google logo"
+                        style={{ width: "18px", height: "18px" }}
+                      />
+                      <span>Continue with Google</span>
+                    </div>
+
+                      <div ref={googleButtonRef} className="hidden" style={{ position: "absolute", left: "-9999px" } }> 
+                        
+                        <GoogleLogin onSuccess={handleLoginSuccess} onError={() => console.log("Login Failed")} />
+                        
+                      </div>
+                  </>
+
                 )}
               </div>
             )}
