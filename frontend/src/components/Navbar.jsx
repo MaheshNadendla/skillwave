@@ -328,7 +328,8 @@ export default function Navbar() {
     fontWeight: "bold",
     fontSize: "1.2rem",
     padding: "0.75rem 1.5rem",
-    borderRadius: "0.5rem",
+    borderBottomLeftRadius: "0.5rem",
+    borderBottomRightRadius: "0.5rem",
   };
 
   const dropdownWrapper = {

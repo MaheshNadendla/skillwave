@@ -11,6 +11,8 @@ import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
+import PaymentForm from "./payments/PaymentForm";
+
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -23,6 +25,8 @@ import card5 from "./images/Python.jpg";
 import card6 from "./images/mern.webp";
 import banner1 from "./images/banner3.webp";
 import banner2 from "./images/bannerimg.jpg";
+import PaymentFailurePage from "./payments/PaymentFailurePage";
+import PaymentSuccessPage from "./payments/PaymentSuccessPage";
 
 function Home() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -235,6 +239,13 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/auth" element={<AuthPage />} />
+
+        <Route path="/payment" element ={<PaymentForm/>}  />
+        <Route path="/payment-failure" element ={<PaymentFailurePage/>}  />
+        <Route path="/payment-success" element ={<PaymentSuccessPage/>}  />
+
+        
+
       </Routes>
       <Footer />
     </Router>
