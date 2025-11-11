@@ -43,7 +43,7 @@ const verifyGoogleTokenAndCreateUser = async (token) => {
         .from("users")
         .insert([
           {
-            google_id,
+            google_id, 
             name,
             email,
             picture,

@@ -27,6 +27,10 @@ import banner1 from "./images/banner3.webp";
 import banner2 from "./images/bannerimg.jpg";
 import PaymentFailurePage from "./payments/PaymentFailurePage";
 import PaymentSuccessPage from "./payments/PaymentSuccessPage";
+import { useEffect } from "react";
+
+
+import {checkAuth} from "./services/authService"
 
 function Home() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -84,6 +88,38 @@ function Home() {
     ]);
     setFormData({ name: "", email: "", feedback: "" });
   };
+
+
+  useEffect(() => {
+    const verifyUser = async () => {
+      let token = localStorage.getItem("token");
+      
+
+      
+      if (!token) {
+        console.log("No token")
+        return;
+      }
+
+      try {
+        
+        token = token.replace(/^"|"$/g, "");
+        console.log("token : ",token);
+
+        const data = await checkAuth(token);
+
+        console.log("data res : ",data)
+       
+      } catch (error) {
+        console.warn("Auth failed:", error.message);     
+      } finally {
+        console.log("came to finally")
+      }
+    };
+
+    verifyUser();
+  }, []);
+
 
   return (
     <div className="bg-light">

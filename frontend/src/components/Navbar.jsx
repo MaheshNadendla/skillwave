@@ -280,7 +280,7 @@ export default function Navbar() {
       dispatch(setToken(res.data.token));
       dispatch(setSignupData(res.data.user));
 
-      setSignupDropDownVisible(false)
+      setSignupDropDownVisible(false) 
 
       console.log("res : ",res)
 
@@ -326,7 +326,7 @@ export default function Navbar() {
     background: "linear-gradient(90deg, #8e2de2 0%, #4a00e0 100%)",
     color: "white",
     fontWeight: "bold",
-    fontSize: "1.2rem",
+    fontSize: "1.2rem", 
     padding: "0.75rem 1.5rem",
     borderBottomLeftRadius: "0.5rem",
     borderBottomRightRadius: "0.5rem",
